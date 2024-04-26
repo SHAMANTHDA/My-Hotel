@@ -4,40 +4,16 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     private Vector3 _startPosition;
+    private Vector3 _movementDirection;
     private bool _isDragging = false;
+
+    private bool isWalking;
 
     private void Update()
     {
         HandlePointerInput();
     }
 
-    #region keyboardInput
-    //private void HandleKeyboardInput()
-    //{
-    //    Vector2 inputVector = new Vector2(0, 0);
-
-    //    if (Input.GetKey(KeyCode.W))
-    //    {
-    //        inputVector.y = +1;
-    //    }
-    //    if (Input.GetKey(KeyCode.S))
-    //    {
-    //        inputVector.y = -1;
-    //    }
-    //    if (Input.GetKey(KeyCode.A))
-    //    {
-    //        inputVector.x = -1;
-    //    }
-    //    if (Input.GetKey(KeyCode.D))
-    //    {
-    //        inputVector.x = +1;
-    //    }
-
-    //    Move(inputVector.normalized);
-    //}
-    #endregion
-
-    #region mouse & touch input
     private void HandlePointerInput()
     {
         // Handle Desktop Mouse Input
@@ -48,9 +24,14 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButton(0) && _isDragging)
         {
-            Vector2 delta = (Vector2)(Input.mousePosition - _startPosition);
-            Move(delta.normalized);
-            _startPosition = Input.mousePosition;
+            Vector3 currentMousePosition = Input.mousePosition;
+            Vector2 delta = currentMousePosition - _startPosition;
+            if (delta.magnitude > 0.1) // Use a small threshold to update direction only if there's significant movement
+            {
+                _movementDirection = new Vector3(delta.x, 0, delta.y).normalized;
+                _startPosition = currentMousePosition; // Update start position to current for smooth continuous update
+            }
+            Move(_movementDirection); // Move in the last updated direction
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -71,9 +52,14 @@ public class Player : MonoBehaviour
                 case TouchPhase.Moved:
                     if (_isDragging)
                     {
-                        Vector2 delta = touch.position - new Vector2(_startPosition.x, _startPosition.y);
-                        Move(delta.normalized);
-                        _startPosition = new Vector3(touch.position.x, touch.position.y, 0);
+                        Vector3 currentTouchPosition = touch.position;
+                        Vector2 delta = currentTouchPosition - _startPosition;
+                        if (delta.magnitude > 0.1) // Use a small threshold to update direction only if there's significant movement
+                        {
+                            _movementDirection = new Vector3(delta.x, 0, delta.y).normalized;
+                            _startPosition = currentTouchPosition; // Update start position to current for smooth continuous update
+                        }
+                        Move(_movementDirection); // Move in the last updated direction
                     }
                     break;
 
@@ -85,12 +71,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Move(Vector2 inputVector)
+    private void Move(Vector3 direction)
     {
-        Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
-        transform.position += moveDir * _moveSpeed * Time.deltaTime;
-
-        transform.forward = moveDir;
+        transform.position += direction * _moveSpeed * Time.deltaTime;
+        if (direction != Vector3.zero)
+        {
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed); // Make sure the player faces the direction of movement
+        }
     }
-    #endregion
+
+    public bool IsWalking()
+    {
+        isWalking = _isDragging && _movementDirection != Vector3.zero;
+        return isWalking;
+    }
 }

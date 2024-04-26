@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        HandlePointerInput();
+            HandlePointerInput();   
     }
 
     private void HandlePointerInput()
@@ -73,17 +73,26 @@ public class Player : MonoBehaviour
 
     private void Move(Vector3 direction)
     {
-        transform.position += direction * _moveSpeed * Time.deltaTime;
-        if (direction != Vector3.zero)
+        float moveDistance = _moveSpeed * Time.deltaTime;
+        float playerRadius = 1.5f;
+        float playerHeight = 2f;
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, direction, moveDistance);
+        if (canMove)
         {
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed); // Make sure the player faces the direction of movement
+            transform.position += direction * moveDistance;
+
         }
+        if (direction != Vector3.zero)
+            {
+                float rotateSpeed = 10f;
+                transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed); // Make sure the player faces the direction of movement
+            }
+        
     }
 
     public bool IsWalking()
     {
-        isWalking = _isDragging && _movementDirection != Vector3.zero;
+        isWalking = _isDragging && _movementDirection != Vector3.zero;  // Update logic to account for canMove
         return isWalking;
     }
 }

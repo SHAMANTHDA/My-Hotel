@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3294758250785316825}
   - component: {fileID: 3294758250785316823}
   - component: {fileID: 3294758250785316822}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3294758251266466155}
   - component: {fileID: 3294758251266466153}
   - component: {fileID: 3294758251266466152}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Eye_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,8 @@ GameObject:
   - component: {fileID: 3294758251327466532}
   - component: {fileID: 6024899996280613204}
   - component: {fileID: 2384103780134813307}
-  m_Layer: 0
+  - component: {fileID: 1467908384803383120}
+  m_Layer: 3
   m_Name: PlayerVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,6 +248,19 @@ CapsuleCollider:
   m_Height: 1.9804802
   m_Direction: 1
   m_Center: {x: 0.0019520521, y: 0.9902401, z: 0}
+--- !u!114 &1467908384803383120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3294758251327466535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a415c2a74f77846bc288b422c8d8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!1 &3294758251441920689
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +272,7 @@ GameObject:
   - component: {fileID: 3294758251441920654}
   - component: {fileID: 3294758251441920652}
   - component: {fileID: 3294758251441920655}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +355,7 @@ GameObject:
   - component: {fileID: 3294758251951329643}
   - component: {fileID: 3294758251951329641}
   - component: {fileID: 3294758251951329640}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Eye_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}

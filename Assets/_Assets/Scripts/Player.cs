@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
             HandlePointerInput();   
     }
 
+    #region HandleInput
     private void HandlePointerInput()
     {
         // Handle Desktop Mouse Input
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
         {
             Vector3 currentMousePosition = Input.mousePosition;
             Vector2 delta = currentMousePosition - _startPosition;
-            if (delta.magnitude > 0.1) // Use a small threshold to update direction only if there's significant movement
+            if (delta.magnitude > 0.1) 
             {
                 _movementDirection = new Vector3(delta.x, 0, delta.y).normalized;
                 _startPosition = currentMousePosition; // Update start position to current for smooth continuous update
@@ -54,12 +55,12 @@ public class Player : MonoBehaviour
                     {
                         Vector3 currentTouchPosition = touch.position;
                         Vector2 delta = currentTouchPosition - _startPosition;
-                        if (delta.magnitude > 0.1) // Use a small threshold to update direction only if there's significant movement
+                        if (delta.magnitude > 0.1) 
                         {
                             _movementDirection = new Vector3(delta.x, 0, delta.y).normalized;
-                            _startPosition = currentTouchPosition; // Update start position to current for smooth continuous update
+                            _startPosition = currentTouchPosition; 
                         }
-                        Move(_movementDirection); // Move in the last updated direction
+                        Move(_movementDirection); 
                     }
                     break;
 
@@ -70,6 +71,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+    #endregion
 
     private void Move(Vector3 direction)
     {
@@ -85,14 +87,14 @@ public class Player : MonoBehaviour
         if (direction != Vector3.zero)
             {
                 float rotateSpeed = 10f;
-                transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed); // Make sure the player faces the direction of movement
+                transform.forward = Vector3.Slerp(transform.forward, direction, Time.deltaTime * rotateSpeed); 
             }
         
     }
 
     public bool IsWalking()
     {
-        isWalking = _isDragging && _movementDirection != Vector3.zero;  // Update logic to account for canMove
+        isWalking = _isDragging && _movementDirection != Vector3.zero; 
         return isWalking;
     }
 }
